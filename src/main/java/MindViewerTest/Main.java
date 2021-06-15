@@ -11,6 +11,11 @@ import br.unicamp.cst.core.entities.MemoryContainer;
 import br.unicamp.cst.core.entities.MemoryObject;
 import br.unicamp.cst.core.entities.Mind;
 import br.unicamp.cst.util.MindViewer;
+import com.google.gson.Gson;
+import express.Express;
+import express.middleware.CorsOptions;
+import express.middleware.Middleware;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -158,7 +163,8 @@ private void createAndShowGUI(Mind m) {
 
 public Main() {
     Mind m = prepareMind();
-    createAndShowGUI(m);
+    //Caso queira ver a interface, descomentar a linha abaixo
+    //createAndShowGUI(m);
 }
     
     public static void main(String[] args) {
@@ -166,6 +172,17 @@ public Main() {
         mainApp.StartTimer();
     	//MindViewer ov = new MindViewer(m, "Mind", new ArrayList<>());
         //ov.setVisible(true);
+
+        Express app = new Express();
+        Gson gson = new Gson();
+        CorsOptions corsOptions = new CorsOptions();
+        corsOptions.setOrigin("*");
+        app.use(Middleware.cors(corsOptions));
+        app.get("/", (req, res) -> {
+            MyJson myJson = new MyJson(mainApp.m.getRawMemory().getAllMemoryObjects(),mainApp.m.getCodeRack().getAllCodelets());
+            res.send(gson.toJson(myJson));
+        });
+        app.listen(5000);
     }
     
 }
