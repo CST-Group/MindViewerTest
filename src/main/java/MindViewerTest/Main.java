@@ -10,6 +10,7 @@ import br.unicamp.cst.core.entities.Memory;
 import br.unicamp.cst.core.entities.MemoryContainer;
 import br.unicamp.cst.core.entities.MemoryObject;
 import br.unicamp.cst.core.entities.Mind;
+import br.unicamp.cst.util.CodeletsProfiler;
 import br.unicamp.cst.util.MindViewer;
 import com.google.gson.Gson;
 import express.Express;
@@ -117,6 +118,7 @@ public class Main {
         c.addOutput(m3);
         c.addOutput(m4);
         c.addBroadcast(m5);
+        c.setCodeletProfiler("profile/", "c.json", "Mind 1", 10, null, CodeletsProfiler.FileFormat.JSON);
         m.insertCodelet(c,"Sensory");
         Codelet c2 = new TestCodelet("Motor1");
         c2.addInput(m4);
@@ -124,6 +126,8 @@ public class Main {
         c2.addOutput(m6);
         c2.addOutput(m3);
         c2.addBroadcast(m5);
+        c2.setCodeletProfiler("profile/", "c2.json", "Mind 1", 10, null, CodeletsProfiler.FileFormat.JSON);
+        c.setProfiling(true);
         m.insertCodelet(c2,"Motor");
         
         Codelet mot1 = new TestCodelet("Curiosity");

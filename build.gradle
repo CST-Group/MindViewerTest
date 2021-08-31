@@ -15,12 +15,15 @@ repositories {
     jcenter()
     mavenCentral()
     maven { 
+    	url "https://github.com/rosjava/rosjava_mvn_repo/raw/master"
+    }
+    maven { 
     	url 'https://jitpack.io'
     }
 }
 
 dependencies {
-    api 'com.github.CST-Group:cst:0.6.1'
+    api('com.github.CST-Group:cst:14d0972')
     implementation 'io.vacco.java-express:java-express:0.2.1'
     implementation 'com.google.code.gson:gson:2.8.6'
 }
