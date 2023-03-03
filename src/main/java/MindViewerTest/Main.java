@@ -10,7 +10,9 @@ import br.unicamp.cst.core.entities.Memory;
 import br.unicamp.cst.core.entities.MemoryContainer;
 import br.unicamp.cst.core.entities.MemoryObject;
 import br.unicamp.cst.core.entities.Mind;
+import br.unicamp.cst.representation.idea.Idea;
 import br.unicamp.cst.util.viewer.MindViewer;
+import java.awt.geom.Point2D;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -23,8 +25,30 @@ public class Main {
     Mind m;
     
     void updateMemoryObject(MemoryObject mo) {
-        double value = (double) mo.getI();
-        mo.setI(value+0.01);
+        Object o = mo.getI();
+        if (o instanceof Double) {
+            double value = (double) mo.getI();
+            mo.setI(value+0.01);
+        }
+        else if (o instanceof Point2D.Double) {
+            Point2D.Double p = (Point2D.Double) o;
+            p.x += 0.01;
+            p.y -= 0.01;
+        }
+        else if (o instanceof Idea) {
+            Idea id = (Idea) o;
+            Idea idea1 = id.get("idea2");
+            if (idea1.getValue() instanceof Double) {
+                double value = (double) idea1.getValue();
+                idea1.setValue(value+0.01);
+            }
+            Idea ideap = id.get("idea15.profunda");
+            if (idea1.getValue() instanceof Double) {
+                double value = (double) ideap.getValue();
+                ideap.setValue(value+0.01);
+            }
+        }
+        else mo.setI(o);
     }
     
     void updateMemoryContainer(MemoryContainer mc) {
@@ -101,7 +125,8 @@ public class Main {
         m.registerMemory(m2,"StandardMemories");
         MemoryObject m3 = m.createMemoryObject("M3", 3.44);
         m.registerMemory(m3,"StandardMemories");
-        MemoryObject m4 = m.createMemoryObject("M4", 4.52);
+        Point2D.Double p = new Point2D.Double(0,0);
+        MemoryObject m4 = m.createMemoryObject("M4", p);
         m.registerMemory(m4,"StandardMemories");
         MemoryObject m5 = m.createMemoryObject("M5", 5.12);
         m.registerMemory(m5,"StandardMemories");
@@ -113,6 +138,30 @@ public class Main {
         int mc2 = m6.setI(6.33, 0.22);
         int mc3 = m6.setI(6.12, 0.13);
         int mc4 = m6.add(m7);
+        Idea idea = new Idea("idea","","AbstractObject",1);
+        idea.add(new Idea("idea1",0.1D,"Property",1));
+        idea.add(new Idea("idea2",0.2D,"Link",1));
+        idea.add(new Idea("idea3",0.3D,"QualityDimension",1));
+        idea.add(new Idea("idea4",0.4D,"Episode",1));
+        idea.add(new Idea("idea5",0.5D,"Composite",1));
+        idea.add(new Idea("idea6",0.6D,"Aggregate",1));
+        idea.add(new Idea("idea7",0.7D,"Configuration",1));
+        idea.add(new Idea("idea8",0.8D,"TimeStep",1));
+        idea.add(new Idea("idea9",0.9D,"Property",2));
+        idea.add(new Idea("idea10",1.0D,"AbstractObject",2));
+        idea.add(new Idea("idea11",1.1D,"Episode",2));
+        idea.add(new Idea("idea12",1.2D,"Property",0));
+        idea.add(new Idea("idea13",1.3D,"AbstractObject",0));
+        idea.add(new Idea("idea14",1.4D,"Episode",0));
+        Idea idea15 = new Idea("idea15",1.5D,"Episode",0);
+        Idea profunda = new Idea("profunda",1.6D,"Episode",0);
+        Idea profunda2 = new Idea("profunda2",1.7D,"Episode",2);
+        profunda.add(profunda2);
+        idea15.add(profunda);
+        idea.add(idea15);
+        //idea.setCategory("Property");
+        //idea.setScope(1);
+        m5.setI(idea);
         //System.out.println("Memories: "+mc1+" "+mc2+" "+mc3+" "+mc4);
         
         Codelet c = new TestCodelet("Sensor1");

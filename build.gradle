@@ -8,6 +8,7 @@ repositories {
     flatDir {
         dirs 'libs'
         dirs '../cst/build/libs'
+        dirs '../cst-desktop/build/libs'
     }
     jcenter()
     mavenCentral()
@@ -26,7 +27,8 @@ repositories {
 }
 
 dependencies {
-   implementation 'com.github.CST-Group:cst-desktop:1.0.3'
+   //implementation 'com.github.CST-Group:cst-desktop:1.0.4'
+    implementation ':cst-desktop:1.0.4-full'
 }
 
 jar {
