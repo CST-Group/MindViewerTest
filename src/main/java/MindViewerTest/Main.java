@@ -10,6 +10,7 @@ import br.unicamp.cst.core.entities.Memory;
 import br.unicamp.cst.core.entities.MemoryContainer;
 import br.unicamp.cst.core.entities.MemoryObject;
 import br.unicamp.cst.core.entities.Mind;
+import br.unicamp.cst.io.rest.RESTServer;
 import br.unicamp.cst.representation.idea.Idea;
 import br.unicamp.cst.util.viewer.MindViewer;
 import java.awt.geom.Point2D;
@@ -204,7 +205,10 @@ private void createAndShowGUI(Mind m) {
 
 public Main() {
     Mind m = prepareMind();
+    // The next line can be commented if you don't want the Desktop MindViewer
     createAndShowGUI(m);
+    // The next line can be commented if you don't use the MindViewer Web
+    RESTServer rs = new RESTServer(m,5000,true);
 }
     
     public static void main(String[] args) {
