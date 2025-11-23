@@ -24,6 +24,7 @@ import java.util.TimerTask;
 public class Main {
     
     Mind m;
+    Boolean enablePlanSubsytem = true;
     
     void updateMemoryObject(MemoryObject mo) {
         Object o = mo.getI();
@@ -64,6 +65,7 @@ public class Main {
     void updateMind() {
         //System.out.println("Updating Mind");
         for (Memory mem : m.getRawMemory().getAllMemoryObjects()) {
+            if (mem.getName().equalsIgnoreCase("PlanningMemory")) continue;
             if (mem.getClass().getCanonicalName().equalsIgnoreCase("br.unicamp.cst.core.entities.MemoryObject")) {
                 updateMemoryObject((MemoryObject)mem);
             }
@@ -194,6 +196,14 @@ public class Main {
         mot3.addOutput(m2);
         try {mot3.setActivation(0.5);} catch(Exception e){}
         m.insertCodelet(mot3,"Motivational");
+        
+        
+        if(enablePlanSubsytem) {
+            m.createCodeletGroup("Planning");
+            Codelet testPlanningCodelet = new TestPlanningCodelet("JSoarCodelet");
+            m.insertCodelet(testPlanningCodelet, "Planning");
+        }
+        
         m.start();
         return(m);
     }
